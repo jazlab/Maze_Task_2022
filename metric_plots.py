@@ -15,8 +15,6 @@ nn_path = os.path.join(os.getcwd(), 'nearest_neighbors_grid_slice.pickle')
 nn_data = np.array(np.load(nn_path, allow_pickle=True))
 area_path = os.path.join(os.getcwd(), 'area_grid_slice.pickle')
 area_data = np.array(np.load(area_path, allow_pickle=True))
-eye_path = os.path.join(os.getcwd(), 'all_eye_movements.pickle')
-eye_data = np.load(eye_path, allow_pickle=True)
 
 ## Get metric dataframe
 
@@ -98,80 +96,3 @@ start_point = [
 custom_lines = start_point
 ax.legend(handles=custom_lines, bbox_to_anchor=(1.55, 1), loc='upper right', title='Metrics')
 ######################################################################
-
-
-
-
-
-subjects = list(eye_data.keys())
-print(subjects)
-
-def _get_trial_saccade_vecs(x):
-    if x.shape[0] > 1:
-        s = x[1:] - x[:-1]
-        s = s[np.linalg.norm(s, axis=1) < np.sqrt(2) * 39.]
-        s = s * 14. / 39.
-        if x.shape[0] < 1:
-            return None
-        else:
-            return s
-    else:
-        return None
-
-def _get_subject_saccade_vecs(v):
-    trial_saccade_vecs = [_get_trial_saccade_vecs(np.array(x)) for x in v]
-    trial_saccade_vecs = [x for x in trial_saccade_vecs if x is not None]
-    subject_saccade_vecs = np.concatenate(trial_saccade_vecs)
-    return subject_saccade_vecs
-
-saccade_vectors = {k: _get_subject_saccade_vecs(v) for k, v in eye_data.items()}
-
-saccade_df_dict = {
-    'subject': [],
-    'x': [],
-    'y': [],
-}
-for k, v in saccade_vectors.items():
-    num_saccades = v.shape[0]
-    saccade_df_dict['subject'].extend(num_saccades * [k])
-    saccade_df_dict['x'].extend(v[:, 0].tolist())
-    saccade_df_dict['y'].extend(v[:, 1].tolist())
-
-saccade_df = pd.DataFrame(saccade_df_dict)
-
-all_saccades = {
-    'Human': np.concatenate([
-            v for k, v in saccade_vectors.items()
-            if k not in ['EXIT0.2', 'SIM0.2', 'HYBRID0.2', 'REJSAMP']
-        ]),
-    'EXIT': saccade_vectors['EXIT0.2'],
-    'SIM': saccade_vectors['SIM0.2'],
-    'HYBRID': saccade_vectors['HYBRID0.2'],
-    'Baseline': saccade_vectors['REJSAMP'],
-}
-
-font = {'family' : 'normal',
-        'weight' : 'normal',
-        'size'   : 12}
-matplotlib.rc('font', **font)
-title_colors = {
-    'Human': 'orange',
-    'Baseline': 'k',
-    'EXIT': (1, 0, 0),
-    'SIM': (0, 0, 1),
-    'HYBRID': (1, 0, 1),
-}
-
-num_samples = 1000
-fig, axes = plt.subplots(ncols=len(all_saccades), figsize=(20, 4))
-fig.tight_layout()
-for ax, (k, v) in zip(axes, all_saccades.items()):
-    inds = np.random.choice(np.arange(v.shape[0]), (num_samples,), replace=False)
-    sub_data = v[inds]
-    ax.scatter(sub_data[:, 0], sub_data[:, 1], s=10)
-    ax.set_title(k, color=title_colors[k], size=25)
-    ax.set_xlim([-8.5, 8.5])
-    ax.set_ylim([-8.5, 8.5])
-    if k == 'Human':
-        ax.set_xlabel('horizontal degrees', size=20)
-        ax.set_ylabel('vertical degrees', size=20)

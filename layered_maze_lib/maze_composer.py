@@ -2,7 +2,7 @@
 
 import numpy as np
 import os
-import path_dataset
+from . import path_dataset
 from scipy import signal as scipy_signal
 
 

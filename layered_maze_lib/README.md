@@ -1,5 +1,7 @@
 # Library for generating mazes by layering paths for MazeSetGo
 
+By Nick Watters, 2022
+
 ## Introduction
 
 This library contains code for generating mazes. The maze generation is done in
@@ -28,6 +30,15 @@ In addition, there are a few short files with the `run_` prefix, but more on
 those later.
 
 The `path_datasets/` directory contains path datasets.
+
+## Dependencies
+
+This library requires you to install the following packages:
+```
+$ pip install absl-py
+$ pip install matplotlib
+$ pip install scipy
+```
 
 ## Getting started
 

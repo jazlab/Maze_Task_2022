@@ -1,8 +1,8 @@
 import numpy as np
 import torch
 
-MAZE_SIZE = 20
-MAZE_DIR = 'maze_generation/layered_maze_lib/path_datasets/maze_size_{}/samples_per_pair_100_v0'.format(MAZE_SIZE)
+MAZE_SIZE = 14
+MAZE_DIR = 'layered_maze_lib/path_datasets/maze_size_{}/samples_per_pair_100_v0'.format(MAZE_SIZE)
 NUM_LAYERS = 50  # large enough to cover most of the arena
 PIXELS_PER_SQUARE = 2  # should be even
 IMG_DIM = PIXELS_PER_SQUARE * MAZE_SIZE - 1

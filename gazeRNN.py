@@ -9,7 +9,7 @@ import pickle
 
 from settings import set_task_parameters, set_gazeRNN_hyperparameters
 from process_human_data import human_sim_speed
-from maze_generation.layered_maze_lib import maze_composer
+from layered_maze_lib import maze_composer
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
