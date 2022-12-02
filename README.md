@@ -2,9 +2,8 @@
 
 This repo contains data and code for the following paper:
 
- our maze-solving project (Jason Li, Nick
-Watters, Yingting Wang, Hansem Sohn, & Mehrdad Jazayeri, 2022).
-
+Modeling Human Eye Movements with Neural Networks in a Maze-Solving Task
+(Jason Li, Nicholas Watters, Sandy Wang, Hansem Sohn, Mehrdad Jazayeri, 2022)
 
 ## Dependencies
 
