@@ -1,12 +1,12 @@
 import numpy as np
 import torch
 
-MAZE_SIZE = 14
+MAZE_SIZE = 20
 MAZE_DIR = 'layered_maze_lib/path_datasets/maze_size_{}/samples_per_pair_100_v0'.format(MAZE_SIZE)
 NUM_LAYERS = 50  # large enough to cover most of the arena
 PIXELS_PER_SQUARE = 2  # should be even
 IMG_DIM = PIXELS_PER_SQUARE * MAZE_SIZE - 1
-SPATIAL_BASIS = torch.as_tensor(np.meshgrid(np.arange(IMG_DIM), np.arange(IMG_DIM))).permute(1, 2, 0)
+SPATIAL_BASIS = torch.as_tensor(np.meshgrid(np.arange(IMG_DIM), np.arange(IMG_DIM))).permute(1, 2, 0).to('cpu')
 
 TAU = 0.2
 NOISE_STDEV = 0.05
